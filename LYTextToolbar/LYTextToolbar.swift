@@ -364,7 +364,6 @@ class LYChatToolbar: UIView, UITextViewDelegate {
         topbar.addSubview(subtitleTextView)
         
         self.btDone = self.createButton(selector: #selector(toolbarDoneClick(_:)), tag: -1)
-        self.btDone.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         topbar.addSubview(self.btDone)
         self.btDone.frame = CGRect(x: bounds.width - doneButtonWidth, y: 0, width: doneButtonWidth, height: topHeight)
         self.btDone.setTitle("Done", for: .normal)
@@ -433,7 +432,7 @@ class LYChatToolbar: UIView, UITextViewDelegate {
         self.addConstraint(NSLayoutConstraint(item: btDismiss, attribute: NSLayoutAttribute.centerY, relatedBy: NSLayoutRelation.equal, toItem: btDismiss.superview!, attribute: NSLayoutAttribute.centerY, multiplier: 1, constant: 0))
         
         //=================OK按钮
-        self.addConstraint(NSLayoutConstraint(item: btDone, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: 64))
+        self.addConstraint(NSLayoutConstraint(item: btDone, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: 50))
         self.addConstraint(NSLayoutConstraint(item: btDone, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: 32))
         
         // 左边距为8
