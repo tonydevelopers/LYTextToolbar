@@ -23,8 +23,6 @@
 		EA353D171E7428C700DF2587 /* bt_text_toolbar_control@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EA353D0D1E7428C700DF2587 /* bt_text_toolbar_control@2x.png */; };
 		EA353D181E7428C700DF2587 /* bt_text_toolbar_font_p@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EA353D0E1E7428C700DF2587 /* bt_text_toolbar_font_p@2x.png */; };
 		EA353D191E7428C700DF2587 /* bt_text_toolbar_font@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EA353D0F1E7428C700DF2587 /* bt_text_toolbar_font@2x.png */; };
-		EA353D1A1E7428C700DF2587 /* bt_text_toolbar_siri_p@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EA353D101E7428C700DF2587 /* bt_text_toolbar_siri_p@2x.png */; };
-		EA353D1B1E7428C700DF2587 /* bt_text_toolbar_siri@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EA353D111E7428C700DF2587 /* bt_text_toolbar_siri@2x.png */; };
 		EA4878C61E759FEF00BF7075 /* color_preset.plist in Resources */ = {isa = PBXBuildFile; fileRef = EA4878C51E759FEF00BF7075 /* color_preset.plist */; };
 		EA61ED301E798672008B556D /* droidsansfallback.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EA61ED2B1E798672008B556D /* droidsansfallback.ttf */; };
 		EA61ED311E798672008B556D /* zcool_gaoduanhei.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EA61ED2C1E798672008B556D /* zcool_gaoduanhei.ttf */; };
@@ -55,8 +53,6 @@
 		EA353D0D1E7428C700DF2587 /* bt_text_toolbar_control@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bt_text_toolbar_control@2x.png"; sourceTree = "<group>"; };
 		EA353D0E1E7428C700DF2587 /* bt_text_toolbar_font_p@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bt_text_toolbar_font_p@2x.png"; sourceTree = "<group>"; };
 		EA353D0F1E7428C700DF2587 /* bt_text_toolbar_font@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bt_text_toolbar_font@2x.png"; sourceTree = "<group>"; };
-		EA353D101E7428C700DF2587 /* bt_text_toolbar_siri_p@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bt_text_toolbar_siri_p@2x.png"; sourceTree = "<group>"; };
-		EA353D111E7428C700DF2587 /* bt_text_toolbar_siri@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bt_text_toolbar_siri@2x.png"; sourceTree = "<group>"; };
 		EA4878C51E759FEF00BF7075 /* color_preset.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = color_preset.plist; sourceTree = "<group>"; };
 		EA61ED2B1E798672008B556D /* droidsansfallback.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = droidsansfallback.ttf; sourceTree = "<group>"; };
 		EA61ED2C1E798672008B556D /* zcool_gaoduanhei.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = zcool_gaoduanhei.ttf; sourceTree = "<group>"; };
@@ -90,8 +86,6 @@
 				EA353D0D1E7428C700DF2587 /* bt_text_toolbar_control@2x.png */,
 				EA353D0E1E7428C700DF2587 /* bt_text_toolbar_font_p@2x.png */,
 				EA353D0F1E7428C700DF2587 /* bt_text_toolbar_font@2x.png */,
-				EA353D101E7428C700DF2587 /* bt_text_toolbar_siri_p@2x.png */,
-				EA353D111E7428C700DF2587 /* bt_text_toolbar_siri@2x.png */,
 			);
 			name = res;
 			sourceTree = "<group>";
@@ -216,10 +210,8 @@
 				EA61ED321E798672008B556D /* zcool_kuaileti.ttf in Resources */,
 				EA4878C61E759FEF00BF7075 /* color_preset.plist in Resources */,
 				EA353CFF1E74263600DF2587 /* LaunchScreen.storyboard in Resources */,
-				EA353D1B1E7428C700DF2587 /* bt_text_toolbar_siri@2x.png in Resources */,
 				EA353CFC1E74263600DF2587 /* Assets.xcassets in Resources */,
 				EA61ED331E798672008B556D /* zcool_kuhei.ttf in Resources */,
-				EA353D1A1E7428C700DF2587 /* bt_text_toolbar_siri_p@2x.png in Resources */,
 				EA61ED311E798672008B556D /* zcool_gaoduanhei.ttf in Resources */,
 				EA353D141E7428C700DF2587 /* bt_text_toolbar_color_p@2x.png in Resources */,
 				EA353D171E7428C700DF2587 /* bt_text_toolbar_control@2x.png in Resources */,

@@ -38,15 +38,10 @@ class ViewController: UIViewController {
         let view0 = self.fontsPanel(width: width, height: panelHeight)
         let view1 = ColorPanel(frame: CGRect(x: 0, y: 0, width: width, height: panelHeight))
         let view2 = UIView(frame: CGRect(x: 0, y: 0, width: width, height: panelHeight))
-        let view3 = UIView(frame: CGRect(x: 0, y: 0, width: width, height: panelHeight))
-        
-        view2.backgroundColor = UIColor.green
-        view3.backgroundColor = UIColor.black
         
         subtitleToolbar.attachPanelView(panelView: view0, index: 0)
         subtitleToolbar.attachPanelView(panelView: view1, index: 1)
         subtitleToolbar.attachPanelView(panelView: view2, index: 2)
-        subtitleToolbar.attachPanelView(panelView: view3, index: 3)
     }
     
     func fontsPanel(width: CGFloat, height: CGFloat) ->UIView {
@@ -66,6 +61,7 @@ class ViewController: UIViewController {
         
         collectionView.register(FontCollectionCell.classForCoder(), forCellWithReuseIdentifier: "FontCollectionCell")
         
+        collectionView.backgroundColor = .clear
         return collectionView
     }
     

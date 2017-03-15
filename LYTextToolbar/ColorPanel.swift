@@ -36,8 +36,6 @@ class ColorPanel: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.backgroundColor = UIColor.white
-        
         //segment = UISegmentedControl(frame: CGRect(x: 10, y: 10, width: 100, height: 40))
         segment = UISegmentedControl(items: ["颜色", "背景"])
         self.addSubview(segment)

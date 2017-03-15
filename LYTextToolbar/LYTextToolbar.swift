@@ -39,8 +39,6 @@ open class LYTextToolbar: UIView {
     
     // 内容面板
     var contentPanel: UIView!
-    // siri语音转换
-    var voicePanel: UIView!
     
     // 字体切换
     var fontPanel: UIView!
@@ -78,22 +76,19 @@ open class LYTextToolbar: UIView {
     // 关联面板视图
     public func attachPanelView(panelView: UIView, index: Int) {
         
-        if index < 0 || index > 3 {
+        if index < 0 || index > 2 {
             return
         }
         
         var destPanelView: UIView!
         switch index {
         case 0:
-            destPanelView = voicePanel
-            break
-        case 1:
             destPanelView = fontPanel
             break
-        case 2:
+        case 1:
             destPanelView = colorPickerPanel
             break
-        case 3:
+        case 2:
             destPanelView = controlPanel
             break
         default:
@@ -128,6 +123,8 @@ open class LYTextToolbar: UIView {
     
     func setup() {
         
+        
+        self.backgroundColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 1)
         let bounds = UIScreen.main.bounds
         
         // 文本输入面板
@@ -141,8 +138,6 @@ open class LYTextToolbar: UIView {
         
         // 添加siri面板
         let panelFrame = CGRect(x: 0, y: 0, width: contentPanel.frame.width, height: contentPanel.frame.height)
-        voicePanel = UIView(frame: panelFrame)
-        contentPanel.addSubview(voicePanel)
         
         // 字体面板
         fontPanel = UIView(frame: panelFrame)
@@ -157,7 +152,6 @@ open class LYTextToolbar: UIView {
         contentPanel.addSubview(controlPanel)
         
         let autoresizingMask: UIViewAutoresizing = [.flexibleWidth, .flexibleHeight]
-        voicePanel.autoresizingMask = autoresizingMask
         fontPanel.autoresizingMask = autoresizingMask
         colorPickerPanel.autoresizingMask = autoresizingMask
         controlPanel.autoresizingMask = autoresizingMask
@@ -252,22 +246,18 @@ extension LYTextToolbar: LYChatToolbarDelegate {
     
     internal func chatToolbar(toolbar: LYChatToolbar, tabIndex: Int) {
         
-        voicePanel.isHidden = true
         fontPanel.isHidden = true
         colorPickerPanel.isHidden = true
         controlPanel.isHidden = true
         
         switch tabIndex {
         case 0:
-            voicePanel.isHidden = false
-            break
-        case 1:
             fontPanel.isHidden = false
             break
-        case 2:
+        case 1:
             colorPickerPanel.isHidden = false
             break
-        case 3:
+        case 2:
             controlPanel.isHidden = false
             break
         default:
@@ -302,8 +292,6 @@ class LYChatToolbar: UIView, UITextViewDelegate {
     
     // 分隔线
     var splitLine: UIImageView!
-    // siri入口
-    var btVoice: UIButton!
     // 字体切换
     var btFont: UIButton!
     // 调色板
@@ -378,12 +366,10 @@ class LYChatToolbar: UIView, UITextViewDelegate {
         self.addSubview(view)
         view.backgroundColor = UIColor(red: 0.94, green: 0.94, blue: 0.94, alpha: 1)
         
-        self.btVoice = self.createButton(selector: #selector(toolbarButtonClick(_:)), tag: 0)
-        self.btFont = self.createButton(selector: #selector(toolbarButtonClick(_:)), tag: 1)
-        self.btColor = self.createButton(selector: #selector(toolbarButtonClick(_:)), tag: 2)
-        self.btControl = self.createButton(selector: #selector(toolbarButtonClick(_:)), tag: 3)
+        self.btFont = self.createButton(selector: #selector(toolbarButtonClick(_:)), tag: 0)
+        self.btColor = self.createButton(selector: #selector(toolbarButtonClick(_:)), tag: 1)
+        self.btControl = self.createButton(selector: #selector(toolbarButtonClick(_:)), tag: 2)
         
-        view.addSubview(self.btVoice)
         view.addSubview(self.btFont)
         view.addSubview(self.btColor)
         view.addSubview(self.btControl)
@@ -393,8 +379,10 @@ class LYChatToolbar: UIView, UITextViewDelegate {
         view.addSubview(self.splitLine)
         splitLine.autoresizingMask = [.flexibleWidth]
         
-        btVoice.setImage(UIImage(named: "bt_text_toolbar_siri"), for: .normal)
-        btVoice.setImage(UIImage(named: "bt_text_toolbar_siri_p"), for: .selected)
+        btFont.imageView?.contentMode = .scaleAspectFit
+        btColor.imageView?.contentMode = .scaleAspectFit
+        btControl.imageView?.contentMode = .scaleAspectFit
+        
         btFont.setImage(UIImage(named: "bt_text_toolbar_font"), for: .normal)
         btFont.setImage(UIImage(named: "bt_text_toolbar_font_p"), for: .selected)
         btColor.setImage(UIImage(named: "bt_text_toolbar_color"), for: .normal)
@@ -402,15 +390,16 @@ class LYChatToolbar: UIView, UITextViewDelegate {
         btControl.setImage(UIImage(named: "bt_text_toolbar_control"), for: .normal)
         btControl.setImage(UIImage(named: "bt_text_toolbar_control_p"), for: .selected)
         
-        let buttonWidth: CGFloat = bounds.width / 4
+        let buttonWidth: CGFloat = bounds.width / 3
         
-        self.btVoice.frame = CGRect(x: 0, y: 0, width: buttonWidth, height: view.frame.height)
-        self.btFont.frame = CGRect(x: buttonWidth, y: 0, width: buttonWidth, height: view.frame.height)
-        self.btColor.frame = CGRect(x: buttonWidth * 2, y: 0, width: buttonWidth, height: view.frame.height)
-        self.btControl.frame = CGRect(x: buttonWidth * 3, y: 0, width: buttonWidth, height: view.frame.height)
+        self.btFont.frame = CGRect(x: buttonWidth * 0, y: 0, width: buttonWidth, height: view.frame.height)
+        self.btColor.frame = CGRect(x: buttonWidth * 1, y: 0, width: buttonWidth, height: view.frame.height)
+        self.btControl.frame = CGRect(x: buttonWidth * 2, y: 0, width: buttonWidth, height: view.frame.height)
 
-        // 动态改变文本高度
-        //self.addObserver(self, forKeyPath: "self.textView.contentSize", options: [.new], context: nil)
+        let insets = UIEdgeInsetsMake(8, 8, 8, 8)
+        self.btFont.contentEdgeInsets = insets
+        self.btColor.contentEdgeInsets = insets
+        self.btControl.contentEdgeInsets = insets
         
         self.addConstraintForSubviewsWithCode()
     }
@@ -508,7 +497,6 @@ class LYChatToolbar: UIView, UITextViewDelegate {
     }
     
     private func clearTabStatus() {
-        self.btVoice.isSelected = false
         self.btFont.isSelected = false
         self.btColor.isSelected = false
         self.btControl.isSelected = false
@@ -532,14 +520,12 @@ class LYChatToolbar: UIView, UITextViewDelegate {
     // 显示哪一个选项卡
     func tabIndex() ->Int {
         
-        if self.btVoice.isSelected {
+        if self.btFont.isSelected {
             return 0
-        } else if self.btFont.isSelected {
-            return 1
         } else if self.btColor.isSelected {
-            return 2
+            return 1
         } else if self.btControl.isSelected {
-            return 3
+            return 2
         }
         
         return -1
