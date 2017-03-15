@@ -36,8 +36,11 @@ class ColorPanel: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        //segment = UISegmentedControl(frame: CGRect(x: 10, y: 10, width: 100, height: 40))
         segment = UISegmentedControl(items: ["颜色", "背景"])
+        segment.tintColor = UIColor(red: 1, green: 0.4, blue: 0, alpha: 1)
+        
+        segment.frame = CGRect(x: 8, y: 8, width: 100, height: 30)
+
         self.addSubview(segment)
         
         //segment.setTitle("颜色", forSegmentAt: 0)
@@ -47,28 +50,27 @@ class ColorPanel: UIView {
         let colorPath = Bundle.main.path(forResource: "color_preset.plist", ofType: nil)!
         self.presetColors = NSArray(contentsOfFile: colorPath) as! [String]
         
+        let side: CGFloat = 40
         let edgeMargin: CGFloat = 6
-        let column: CGFloat = 8
-        let size = (frame.width - edgeMargin * 2 - edgeMargin * (column - 1)) / column
-        
+
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: size, height: size)
-        layout.scrollDirection = .horizontal
+        layout.itemSize = CGSize(width: side, height: side)
+        layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 3 * 2
         layout.minimumInteritemSpacing = 3
         
-        mCollectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: frame.width, height: 180), collectionViewLayout: layout)
+        mCollectionView = UICollectionView(frame: CGRect(x: 0, y: segment.frame.origin.y + segment.frame.height + 8, width: frame.width, height: 150), collectionViewLayout: layout)
         mCollectionView.dataSource = self
         mCollectionView.delegate = self
         mCollectionView.register(ColorCell.classForCoder(), forCellWithReuseIdentifier: "ColorCell")
         mCollectionView.backgroundColor = UIColor.clear
         
-        var verticalInset: CGFloat = 0
-        let contentHeight = edgeMargin * 4 + size * 3
-        if contentHeight < frame.height {
-            verticalInset = (frame.height - contentHeight) / 2
-        }
-        mCollectionView.contentInset = UIEdgeInsetsMake(verticalInset, edgeMargin, verticalInset, edgeMargin)
+//        var verticalInset: CGFloat = 0
+//        let contentHeight = edgeMargin * 4 + side * 3
+//        if contentHeight < frame.height {
+//            verticalInset = (frame.height -  - contentHeight) / 2
+//        }
+        mCollectionView.contentInset = UIEdgeInsetsMake(edgeMargin, edgeMargin, edgeMargin, edgeMargin)
         
         self.addSubview(mCollectionView)
         
@@ -79,7 +81,7 @@ class ColorPanel: UIView {
     
     @objc func change(sender: UISegmentedControl) {
         
-        
+        NSLog("change: ")
     }
     
     required init?(coder aDecoder: NSCoder) {

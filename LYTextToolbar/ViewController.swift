@@ -13,7 +13,7 @@ class ViewController: UIViewController {
     var subtitleToolbar: LYTextToolbar!
     
     // 字体路径
-    var fontsPath: [String]! = [String]()
+    var fontNames: [String]! = [String]()
     var colors: [String]!
     
     override func viewDidLoad() {
@@ -25,9 +25,19 @@ class ViewController: UIViewController {
     
     fileprivate func setup() {
         
-        for i in 0 ..< 20 {
-            fontsPath.append("font\(i)")
+        let fontFileNames = ["zcool_gaoduanhei.ttf", "zcool_kuaileti.ttf", "zcool_kuhei.ttf", "zcool_yidali.ttf", "droidsansfallback.ttf"]
+        for fontFileName in fontFileNames {
+            
+            if let path = Bundle.main.path(forResource: fontFileName, ofType: "") {
+                
+                let (fontName, _) = UIFont.register(path: path)
+                
+                if fontName != nil {
+                    fontNames.append(fontName!)
+                }
+            }
         }
+        
         subtitleToolbar = LYTextToolbar()
         subtitleToolbar.textToolbarDelegate = self
         
@@ -94,27 +104,29 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        if fontsPath == nil {
+        if fontNames == nil {
             return 0
         }
         
-        return fontsPath.count
+        return fontNames.count
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell{
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FontCollectionCell", for: indexPath) as! FontCollectionCell
         
-        let text = fontsPath[indexPath.row]
+        let name = fontNames[indexPath.row]
         
-        cell.fontLabel.text = text
+        cell.fontLabel.text = "字体ABC"
+        
+        cell.fontLabel.font = UIFont(name: name, size: 18)
         
         return cell
     }
     
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        let text = fontsPath[indexPath.row]
+        let text = fontNames[indexPath.row]
         
         print("text: \(text)")
     }
@@ -151,7 +163,7 @@ class FontCollectionCell: UICollectionViewCell {
         self.fontLabel = UILabel(frame: CGRect(x: margin, y: margin, width: self.bounds.width - margin * 2, height: self.bounds.height - margin * 2))
         self.fontLabel.adjustsFontSizeToFitWidth = true
         self.fontLabel.textAlignment = .center
-        self.fontLabel.textColor = .gray
+        self.fontLabel.textColor = .black
         
         addSubview(fontLabel)
         
