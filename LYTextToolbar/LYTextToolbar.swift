@@ -228,6 +228,7 @@ open class LYTextToolbar: UIView {
     // 隐藏编辑面板
     public func hide() {
         
+        self.toolbar.clearTabStatus()
         self.toolbar.hideKeyboard()
         UIView.animate(withDuration: 0.25, delay: 0, options: UIViewAnimationOptions.curveLinear, animations: { [weak self] in
             
@@ -496,7 +497,7 @@ class LYChatToolbar: UIView, UITextViewDelegate {
         self.toolbarDelegate?.chatToolbar(toolbar: self, tabIndex: button.tag)
     }
     
-    private func clearTabStatus() {
+    func clearTabStatus() {
         self.btFont.isSelected = false
         self.btColor.isSelected = false
         self.btControl.isSelected = false

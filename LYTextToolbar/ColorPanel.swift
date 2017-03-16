@@ -28,11 +28,15 @@ class ColorPanel: UIView {
     weak var colorDelegate: ColorPanelDelegate?
     
     var segment: UISegmentedControl!
+    
+    // 显示当前颜色
+    var colorImageView: UIImageView!
     var slider: UISlider!
     
     var textAlphaValue: Float = 1
     var backgroundAlphaValue: Float = 1
     
+    var side: CGFloat = 40
     var mCollectionView: UICollectionView!
     // 预设颜色值
     var presetColors: [String]!
@@ -68,7 +72,10 @@ class ColorPanel: UIView {
         let colorPath = Bundle.main.path(forResource: "color_preset.plist", ofType: nil)!
         self.presetColors = NSArray(contentsOfFile: colorPath) as! [String]
         
-        let side: CGFloat = 40
+        
+        //colorImageView = UIImageView(frame: CGRect(x: 10, y: <#T##CGFloat#>, width: <#T##CGFloat#>, height: <#T##CGFloat#>)
+        
+        
         let edgeMargin: CGFloat = 6
 
         let layout = UICollectionViewFlowLayout()
