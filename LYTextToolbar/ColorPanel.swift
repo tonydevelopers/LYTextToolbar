@@ -12,8 +12,11 @@ import UIKit
 
 protocol ColorPanelDelegate: NSObjectProtocol {
     
-    /// 返回选择的颜色值
-    func colorPanel(_ colorPanel: ColorPanel, rgbColor: String)
+    /*
+     * 返回选择的颜色值
+     * tag: 0 字体颜色  1: 背景色
+     */
+    func colorPanel(_ colorPanel: ColorPanel, rgbColor: String, tag: Int)
     
 }
 
@@ -27,25 +30,40 @@ class ColorPanel: UIView {
     var segment: UISegmentedControl!
     var slider: UISlider!
     
+    var textAlphaValue: Float = 1
+    var backgroundAlphaValue: Float = 1
+    
     var mCollectionView: UICollectionView!
     // 预设颜色值
     var presetColors: [String]!
     
     var selectedPosition: Int = -1
     
+    var segmentItems: [String] = [String]() {
+        
+        didSet {
+            
+            segment.removeAllSegments()
+            
+            for index in 0 ..< segmentItems.count {
+                let title: String = segmentItems[index]
+                
+                segment.insertSegment(withTitle: title, at: index, animated: true)
+            }
+            
+            segment.selectedSegmentIndex = 0
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        segment = UISegmentedControl(items: ["颜色", "背景"])
+        segment = UISegmentedControl(frame: CGRect(x: 8, y: 8, width: 160, height: 30))
         segment.tintColor = UIColor(red: 1, green: 0.4, blue: 0, alpha: 1)
-        
-        segment.frame = CGRect(x: 8, y: 8, width: 100, height: 30)
 
         self.addSubview(segment)
         
-        //segment.setTitle("颜色", forSegmentAt: 0)
-        //segment.setTitle("背景", forSegmentAt: 1)
-        segment.addTarget(self, action: #selector(change(sender:)), for: .valueChanged)
+        segment.addTarget(self, action: #selector(segmentChange(sender:)), for: .valueChanged)
         
         let colorPath = Bundle.main.path(forResource: "color_preset.plist", ofType: nil)!
         self.presetColors = NSArray(contentsOfFile: colorPath) as! [String]
@@ -75,27 +93,52 @@ class ColorPanel: UIView {
         self.addSubview(mCollectionView)
         
         slider = UISlider(frame: CGRect(x: 40, y: mCollectionView.frame.origin.y + mCollectionView.frame.height + 10, width: frame.width - 40 * 2, height: 30))
+        slider.minimumValue = 0
+        slider.maximumValue = 1
         
+        slider.value = 1
+        
+        slider.isContinuous = true
+        
+        slider.tintColor = UIColor(red: 1, green: 0.4, blue: 0, alpha: 1)
         self.addSubview(slider)
+        
+        slider.addTarget(self, action: #selector(sliderChange(sender: )), for: .valueChanged)
     }
     
-    @objc func change(sender: UISegmentedControl) {
+    @objc func segmentChange(sender: UISegmentedControl) {
         
-        NSLog("change: ")
+        switch segment.selectedSegmentIndex {
+        case 0:
+            slider.value = textAlphaValue
+            break
+        case 1:
+            slider.value = backgroundAlphaValue
+            break
+        default:
+            break
+        }
+    }
+    
+    @objc func sliderChange(sender: UISlider) {
+        
+        print("value: \(slider.value)")
+        
+        switch segment.selectedSegmentIndex {
+        case 0:
+            textAlphaValue = slider.value
+            break
+        case 1:
+            backgroundAlphaValue = slider.value
+            break
+        default:
+            break
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
-    /*
-     // Only override drawRect: if you perform custom drawing.
-     // An empty implementation adversely affects performance during animation.
-     override func drawRect(rect: CGRect) {
-     // Drawing code
-     }
-     */
     
 }
 
@@ -165,7 +208,7 @@ extension ColorPanel: UICollectionViewDataSource, UICollectionViewDelegate {
         }
         
         let colorString = self.presetColors[indexPath.row]
-        self.colorDelegate?.colorPanel(self, rgbColor: colorString)
+        self.colorDelegate?.colorPanel(self, rgbColor: colorString, tag: segment.selectedSegmentIndex)
     }
     
 }

@@ -12,8 +12,8 @@ class ViewController: UIViewController {
     
     var subtitleToolbar: LYTextToolbar!
     
-    // 字体路径
-    var fontNames: [String]! = [String]()
+    @IBOutlet weak var titleLabel: UILabel!
+    
     var colors: [String]!
     
     override func viewDidLoad() {
@@ -25,19 +25,6 @@ class ViewController: UIViewController {
     
     fileprivate func setup() {
         
-        let fontFileNames = ["zcool_gaoduanhei.ttf", "zcool_kuaileti.ttf", "zcool_kuhei.ttf", "zcool_yidali.ttf", "droidsansfallback.ttf"]
-        for fontFileName in fontFileNames {
-            
-            if let path = Bundle.main.path(forResource: fontFileName, ofType: "") {
-                
-                let (fontName, _) = UIFont.register(path: path)
-                
-                if fontName != nil {
-                    fontNames.append(fontName!)
-                }
-            }
-        }
-        
         subtitleToolbar = LYTextToolbar()
         subtitleToolbar.textToolbarDelegate = self
         
@@ -45,34 +32,20 @@ class ViewController: UIViewController {
         
         let width = self.view.frame.width
         let panelHeight = subtitleToolbar.panelHeight
-        let view0 = self.fontsPanel(width: width, height: panelHeight)
-        let view1 = ColorPanel(frame: CGRect(x: 0, y: 0, width: width, height: panelHeight))
-        let view2 = UIView(frame: CGRect(x: 0, y: 0, width: width, height: panelHeight))
+        let fontPanel = FontPanel(frame: CGRect(x: 0, y: 0, width: width, height: panelHeight))
+        let colorPanel = ColorPanel(frame: CGRect(x: 0, y: 0, width: width, height: panelHeight))
+        let controlPanel = UIView(frame: CGRect(x: 0, y: 0, width: width, height: panelHeight))
         
-        subtitleToolbar.attachPanelView(panelView: view0, index: 0)
-        subtitleToolbar.attachPanelView(panelView: view1, index: 1)
-        subtitleToolbar.attachPanelView(panelView: view2, index: 2)
-    }
-    
-    func fontsPanel(width: CGFloat, height: CGFloat) ->UIView {
+        fontPanel.defaultMaker = "默认"
+        fontPanel.labelName = "字体ABC"
+        fontPanel.fontDelegate = self
+
+        colorPanel.colorDelegate = self
+        colorPanel.segmentItems = ["颜色", "背景"]
         
-        let layout_space: CGFloat = 4.0
-        let layout = UICollectionViewFlowLayout()
-        let itemWidth = (width - layout_space * 4) / 3.0
-        layout.itemSize = CGSize(width: itemWidth, height: 40)
-        layout.sectionInset = UIEdgeInsetsMake(layout_space, layout_space, layout_space, layout_space);
-        layout.minimumInteritemSpacing = layout_space;
-        layout.minimumLineSpacing = layout_space;
-        
-        let collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: width, height: height), collectionViewLayout: layout)
-        collectionView.tag = 0
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        
-        collectionView.register(FontCollectionCell.classForCoder(), forCellWithReuseIdentifier: "FontCollectionCell")
-        
-        collectionView.backgroundColor = .clear
-        return collectionView
+        subtitleToolbar.attachPanelView(panelView: fontPanel, index: 0)
+        subtitleToolbar.attachPanelView(panelView: colorPanel, index: 1)
+        subtitleToolbar.attachPanelView(panelView: controlPanel, index: 2)
     }
     
     override func didReceiveMemoryWarning() {
@@ -100,98 +73,6 @@ class ViewController: UIViewController {
     
 }
 
-extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate {
-    
-    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
-        if fontNames == nil {
-            return 0
-        }
-        
-        return fontNames.count
-    }
-    
-    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell{
-        
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FontCollectionCell", for: indexPath) as! FontCollectionCell
-        
-        let name = fontNames[indexPath.row]
-        
-        cell.fontLabel.text = "字体ABC"
-        
-        cell.fontLabel.font = UIFont(name: name, size: 18)
-        
-        return cell
-    }
-    
-    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        let text = fontNames[indexPath.row]
-        
-        print("text: \(text)")
-    }
-    
-}
-
-/// 这样声明表示可以被objc代码嗲用
-class FontCollectionCell: UICollectionViewCell {
-    
-    var fontLabel: UILabel!
-    var selectBorder: UIView!
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        setup()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        
-        setup()
-    }
-    
-    fileprivate func setup() {
-        self.clipsToBounds = true
-        
-        let margin: CGFloat = 4
-        self.fontLabel = UILabel(frame: CGRect(x: margin, y: margin, width: self.bounds.width - margin * 2, height: self.bounds.height - margin * 2))
-        self.fontLabel.adjustsFontSizeToFitWidth = true
-        self.fontLabel.textAlignment = .center
-        self.fontLabel.textColor = .black
-        
-        addSubview(fontLabel)
-        
-        let borderMargin: CGFloat = 8
-        selectBorder = UIView(frame: CGRect(x: borderMargin, y: borderMargin, width: self.bounds.width - borderMargin * 2, height: self.bounds.height - borderMargin * 2))
-        selectBorder.layer.borderWidth = 2
-        selectBorder.layer.cornerRadius = 3
-        selectBorder.layer.borderColor = UIColor.orange.cgColor
-        
-        addSubview(selectBorder)
-        
-        selectBorder.isHidden = true
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        let margin: CGFloat = 10
-        fontLabel.frame = CGRect(x: margin, y: margin, width: self.bounds.width - margin * 2, height: self.bounds.height - margin * 2)
-        
-        let borderMargin: CGFloat = 6
-        selectBorder.frame = CGRect(x: borderMargin, y: borderMargin, width: self.bounds.width - borderMargin * 2, height: self.bounds.height - borderMargin * 2)
-        
-    }
-    
-}
-
-
 extension ViewController: LYTextToolbarDelegate {
     
     // completion: 是否完成编辑
@@ -202,3 +83,30 @@ extension ViewController: LYTextToolbarDelegate {
     
 }
 
+extension ViewController: FontPanelDelegate {
+    
+    func fontPanel(_ fontPanel: FontPanel, fontName: String) {
+        
+        if let preFont = self.titleLabel.font {
+            self.titleLabel.font = UIFont(name: fontName, size: preFont.pointSize)
+        } else {
+            self.titleLabel.font = UIFont(name: fontName, size: 18)
+        }
+        
+    }
+    
+}
+
+extension ViewController: ColorPanelDelegate {
+    
+    func colorPanel(_ colorPanel: ColorPanel, rgbColor: String, tag: Int) {
+        
+        if  tag == 0 {
+            self.titleLabel.textColor = UIColor(rgba: rgbColor)
+        } else {
+            self.titleLabel.backgroundColor = UIColor(rgba: rgbColor)
+        }
+        
+    }
+    
+}

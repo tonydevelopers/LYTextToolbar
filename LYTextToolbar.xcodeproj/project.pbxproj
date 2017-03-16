@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		EA1AF2801E759EAE00FE2D9C /* ColorPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA1AF27F1E759EAE00FE2D9C /* ColorPanel.swift */; };
 		EA1AF2821E759F0800FE2D9C /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA1AF2811E759F0800FE2D9C /* ColorExtension.swift */; };
+		EA31BA101E7A741F00BB5993 /* ControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA31BA0F1E7A741F00BB5993 /* ControlView.swift */; };
+		EA31BA121E7A77BC00BB5993 /* FontPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA31BA111E7A77BC00BB5993 /* FontPanel.swift */; };
 		EA353CF51E74263600DF2587 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA353CF41E74263600DF2587 /* AppDelegate.swift */; };
 		EA353CF71E74263600DF2587 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA353CF61E74263600DF2587 /* ViewController.swift */; };
 		EA353CFA1E74263600DF2587 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA353CF81E74263600DF2587 /* Main.storyboard */; };
@@ -37,6 +39,8 @@
 /* Begin PBXFileReference section */
 		EA1AF27F1E759EAE00FE2D9C /* ColorPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPanel.swift; sourceTree = "<group>"; };
 		EA1AF2811E759F0800FE2D9C /* ColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
+		EA31BA0F1E7A741F00BB5993 /* ControlView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlView.swift; sourceTree = "<group>"; };
+		EA31BA111E7A77BC00BB5993 /* FontPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontPanel.swift; sourceTree = "<group>"; };
 		EA353CF11E74263600DF2587 /* LYTextToolbar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LYTextToolbar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA353CF41E74263600DF2587 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EA353CF61E74263600DF2587 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -116,7 +120,9 @@
 				EA353D061E7426A000DF2587 /* LYTextToolbar.swift */,
 				EA353CF41E74263600DF2587 /* AppDelegate.swift */,
 				EA353CF61E74263600DF2587 /* ViewController.swift */,
+				EA31BA111E7A77BC00BB5993 /* FontPanel.swift */,
 				EA1AF27F1E759EAE00FE2D9C /* ColorPanel.swift */,
+				EA31BA0F1E7A741F00BB5993 /* ControlView.swift */,
 				EA4878C51E759FEF00BF7075 /* color_preset.plist */,
 				EA353CF81E74263600DF2587 /* Main.storyboard */,
 				EA353CFB1E74263600DF2587 /* Assets.xcassets */,
@@ -232,8 +238,10 @@
 				EA353CF71E74263600DF2587 /* ViewController.swift in Sources */,
 				EA1AF2801E759EAE00FE2D9C /* ColorPanel.swift in Sources */,
 				EA353CF51E74263600DF2587 /* AppDelegate.swift in Sources */,
+				EA31BA121E7A77BC00BB5993 /* FontPanel.swift in Sources */,
 				EAFD68641E76CF4B00537B2F /* UIFontExtension.swift in Sources */,
 				EA61ED371E798720008B556D /* FontCell.swift in Sources */,
+				EA31BA101E7A741F00BB5993 /* ControlView.swift in Sources */,
 				EA1AF2821E759F0800FE2D9C /* ColorExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
