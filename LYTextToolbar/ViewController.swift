@@ -34,7 +34,7 @@ class ViewController: UIViewController {
         let panelHeight = subtitleToolbar.panelHeight
         let fontPanel = FontPanel(frame: CGRect(x: 0, y: 0, width: width, height: panelHeight))
         let colorPanel = ColorPanel(frame: CGRect(x: 0, y: 0, width: width, height: panelHeight))
-        let controlPanel = UIView(frame: CGRect(x: 0, y: 0, width: width, height: panelHeight))
+        let controlPanel = ControlPanel(frame: CGRect(x: 0, y: 0, width: width, height: panelHeight))
         
         fontPanel.defaultMaker = "默认"
         fontPanel.labelName = "字体ABC"
@@ -42,6 +42,8 @@ class ViewController: UIViewController {
 
         colorPanel.colorDelegate = self
         colorPanel.segmentItems = ["颜色", "背景"]
+        
+        controlPanel.controlDelegate = self
         
         subtitleToolbar.attachPanelView(panelView: fontPanel, index: 0)
         subtitleToolbar.attachPanelView(panelView: colorPanel, index: 1)
@@ -99,14 +101,29 @@ extension ViewController: FontPanelDelegate {
 
 extension ViewController: ColorPanelDelegate {
     
-    func colorPanel(_ colorPanel: ColorPanel, rgbColor: String, tag: Int) {
+    func colorPanel(_ colorPanel: ColorPanel, color: UIColor, tag: Int) {
         
         if  tag == 0 {
-            self.titleLabel.textColor = UIColor(rgba: rgbColor)
+            self.titleLabel.textColor = color
         } else {
-            self.titleLabel.backgroundColor = UIColor(rgba: rgbColor)
+            self.titleLabel.backgroundColor = color
         }
         
+    }
+    
+}
+
+extension ViewController: ControlPanelDelegate {
+    
+    func controlPanel(_ controlPanel: ControlPanel, location: Int) {
+        
+        NSLog("location: \(location)")
+    }
+    
+    func controlPanel(_ controlPanel: ControlPanel, translationX: CGFloat, translationY: CGFloat) {
+        
+        
+        NSLog("location: \(translationX)   \(translationY)")
     }
     
 }

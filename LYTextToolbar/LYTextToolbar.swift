@@ -384,12 +384,19 @@ class LYChatToolbar: UIView, UITextViewDelegate {
         btColor.imageView?.contentMode = .scaleAspectFit
         btControl.imageView?.contentMode = .scaleAspectFit
         
-        btFont.setImage(UIImage(named: "bt_text_toolbar_font"), for: .normal)
-        btFont.setImage(UIImage(named: "bt_text_toolbar_font_p"), for: .selected)
-        btColor.setImage(UIImage(named: "bt_text_toolbar_color"), for: .normal)
-        btColor.setImage(UIImage(named: "bt_text_toolbar_color_p"), for: .selected)
-        btControl.setImage(UIImage(named: "bt_text_toolbar_control"), for: .normal)
-        btControl.setImage(UIImage(named: "bt_text_toolbar_control_p"), for: .selected)
+//        btFont.setImage(UIImage(named: "bt_text_toolbar_font"), for: .normal)
+//        btFont.setImage(UIImage(named: "bt_text_toolbar_font_p"), for: .selected)
+//        btColor.setImage(UIImage(named: "bt_text_toolbar_color"), for: .normal)
+//        btColor.setImage(UIImage(named: "bt_text_toolbar_color_p"), for: .selected)
+//        btControl.setImage(UIImage(named: "bt_text_toolbar_control"), for: .normal)
+//        btControl.setImage(UIImage(named: "bt_text_toolbar_control_p"), for: .selected)
+        
+        btFont.setImage(image(named: "bt_text_toolbar_font"), for: .normal)
+        btFont.setImage(image(named: "bt_text_toolbar_font_p"), for: .selected)
+        btColor.setImage(image(named: "bt_text_toolbar_color"), for: .normal)
+        btColor.setImage(image(named: "bt_text_toolbar_color_p"), for: .selected)
+        btControl.setImage(image(named: "bt_text_toolbar_control"), for: .normal)
+        btControl.setImage(image(named: "bt_text_toolbar_control_p"), for: .selected)
         
         let buttonWidth: CGFloat = bounds.width / 3
         
@@ -403,6 +410,15 @@ class LYChatToolbar: UIView, UITextViewDelegate {
         self.btControl.contentEdgeInsets = insets
         
         self.addConstraintForSubviewsWithCode()
+    }
+    
+    func image(named: String) -> UIImage {
+        
+        let bundlePath = Bundle.main.path(forResource: "LYTextToolbar", ofType: "bundle")
+        let path = bundlePath?.appending("/").appending(named)
+
+        let image = UIImage(contentsOfFile: path!)
+        return image!
     }
     
     /** 代码添加约束 */

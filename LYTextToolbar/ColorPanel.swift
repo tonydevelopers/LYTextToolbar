@@ -16,7 +16,7 @@ protocol ColorPanelDelegate: NSObjectProtocol {
      * 返回选择的颜色值
      * tag: 0 字体颜色  1: 背景色
      */
-    func colorPanel(_ colorPanel: ColorPanel, rgbColor: String, tag: Int)
+    func colorPanel(_ colorPanel: ColorPanel, color: UIColor, tag: Int)
     
 }
 
@@ -62,7 +62,7 @@ class ColorPanel: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        segment = UISegmentedControl(frame: CGRect(x: 8, y: 8, width: 160, height: 30))
+        segment = UISegmentedControl(frame: CGRect(x: (frame.width - 160) / 2, y: 8, width: 160, height: 30))
         segment.tintColor = UIColor(red: 1, green: 0.4, blue: 0, alpha: 1)
 
         self.addSubview(segment)
@@ -72,9 +72,23 @@ class ColorPanel: UIView {
         let colorPath = Bundle.main.path(forResource: "color_preset.plist", ofType: nil)!
         self.presetColors = NSArray(contentsOfFile: colorPath) as! [String]
         
+        let view = UIView(frame: CGRect(x: 0, y: segment.frame.origin.y + segment.frame.height + 8, width: frame.width, height: 50))
         
-        //colorImageView = UIImageView(frame: CGRect(x: 10, y: <#T##CGFloat#>, width: <#T##CGFloat#>, height: <#T##CGFloat#>)
+        self.addSubview(view)
         
+        colorImageView = UIImageView(frame: CGRect(x: 10, y: (view.frame.height - side) / 2, width: side, height: side))
+        view.addSubview(colorImageView)
+        
+        let originX = colorImageView.frame.origin.x + colorImageView.frame.width + 16
+        slider = UISlider(frame: CGRect(x: originX, y: (view.frame.height - 30) / 2, width: (view.frame.width - originX - 16), height: 30))
+        slider.minimumValue = 0
+        slider.maximumValue = 1
+        slider.value = 1
+        slider.isContinuous = true
+        slider.tintColor = UIColor(red: 1, green: 0.4, blue: 0, alpha: 1)
+        slider.addTarget(self, action: #selector(sliderChange(sender: )), for: .valueChanged)
+        slider.addTarget(self, action: #selector(sliderUp(sender: )), for: .touchUpInside)
+        view.addSubview(slider)
         
         let edgeMargin: CGFloat = 6
 
@@ -84,7 +98,7 @@ class ColorPanel: UIView {
         layout.minimumLineSpacing = 3 * 2
         layout.minimumInteritemSpacing = 3
         
-        mCollectionView = UICollectionView(frame: CGRect(x: 0, y: segment.frame.origin.y + segment.frame.height + 8, width: frame.width, height: 150), collectionViewLayout: layout)
+        mCollectionView = UICollectionView(frame: CGRect(x: 0, y: view.frame.origin.y + view.frame.height + 8, width: frame.width, height: 150), collectionViewLayout: layout)
         mCollectionView.dataSource = self
         mCollectionView.delegate = self
         mCollectionView.register(ColorCell.classForCoder(), forCellWithReuseIdentifier: "ColorCell")
@@ -99,18 +113,6 @@ class ColorPanel: UIView {
         
         self.addSubview(mCollectionView)
         
-        slider = UISlider(frame: CGRect(x: 40, y: mCollectionView.frame.origin.y + mCollectionView.frame.height + 10, width: frame.width - 40 * 2, height: 30))
-        slider.minimumValue = 0
-        slider.maximumValue = 1
-        
-        slider.value = 1
-        
-        slider.isContinuous = true
-        
-        slider.tintColor = UIColor(red: 1, green: 0.4, blue: 0, alpha: 1)
-        self.addSubview(slider)
-        
-        slider.addTarget(self, action: #selector(sliderChange(sender: )), for: .valueChanged)
     }
     
     @objc func segmentChange(sender: UISegmentedControl) {
@@ -129,6 +131,7 @@ class ColorPanel: UIView {
     
     @objc func sliderChange(sender: UISlider) {
         
+        
         print("value: \(slider.value)")
         
         switch segment.selectedSegmentIndex {
@@ -141,6 +144,21 @@ class ColorPanel: UIView {
         default:
             break
         }
+        
+        guard let color = self.colorImageView.backgroundColor else {
+            return
+        }
+        
+        self.colorImageView.backgroundColor = color.resetAlpha(alpha: CGFloat(slider.value))
+    }
+    
+    @objc func sliderUp (sender: UISlider) {
+        
+        guard let color = self.colorImageView.backgroundColor else {
+            return
+        }
+        
+        self.colorDelegate?.colorPanel(self, color: color, tag: segment.selectedSegmentIndex)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -200,6 +218,10 @@ extension ColorPanel: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        if selectedPosition == indexPath.row {
+            return
+        }
+        
         var preIndexPath: IndexPath! = nil
         
         if self.selectedPosition >= 0 {
@@ -211,11 +233,24 @@ extension ColorPanel: UICollectionViewDataSource, UICollectionViewDelegate {
         if preIndexPath == nil {
             collectionView.reloadItems(at: [indexPath])
         } else {
-            collectionView.reloadItems(at: [preIndexPath, indexPath])
+            if preIndexPath.row != indexPath.row {
+                collectionView.reloadItems(at: [preIndexPath, indexPath])
+            }
         }
         
         let colorString = self.presetColors[indexPath.row]
-        self.colorDelegate?.colorPanel(self, rgbColor: colorString, tag: segment.selectedSegmentIndex)
+        let color = UIColor(rgba: colorString)
+        
+        var tagColor: UIColor!
+        if segment.selectedSegmentIndex == 0 {
+            tagColor = color.withAlphaComponent(CGFloat(textAlphaValue))
+        } else {
+            tagColor = color.withAlphaComponent(CGFloat(backgroundAlphaValue))
+        }
+        
+        self.colorImageView.backgroundColor = tagColor
+        
+        self.colorDelegate?.colorPanel(self, color: tagColor, tag: segment.selectedSegmentIndex)
     }
     
 }

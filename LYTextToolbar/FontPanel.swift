@@ -154,7 +154,7 @@ class FontCollectionCell: UICollectionViewCell {
         self.fontLabel = UILabel(frame: CGRect(x: margin, y: margin, width: self.bounds.width - margin * 2, height: self.bounds.height - margin * 2))
         self.fontLabel.adjustsFontSizeToFitWidth = true
         self.fontLabel.textAlignment = .center
-        self.fontLabel.textColor = .black
+        self.fontLabel.textColor = UIColor.darkGray
         self.backgroundColor = UIColor.white
         
         addSubview(fontLabel)
